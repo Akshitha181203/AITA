@@ -1,0 +1,2 @@
+1.0.0
+Created virtual env and included it in .gitignore, added dependencies and freezed requirements

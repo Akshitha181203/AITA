@@ -1,2 +1,6 @@
+1.0.1
+Phase 1: question and answer with no memory
+Simple UI and integration of llm api no context window. 
+
 1.0.0
-Created virtual env and included it in .gitignore, added dependencies and freezed requirements
+setup - Created virtual env and included it in .gitignore, added dependencies and freezed requirements

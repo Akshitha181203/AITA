@@ -1,4 +1,8 @@
-1.0.1
+1.2.0
+Phase 2: PDF integration 
+temp 0 model no hallucinations only answers from PDF -> no PDF no answer
+
+1.1.0
 Phase 1: question and answer with no memory
 Simple UI and integration of llm api no context window. 
 

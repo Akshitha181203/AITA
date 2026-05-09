@@ -1,10 +1,15 @@
+1.3.0
+Phase 3: Quiz Generation
+Repeatative question and inconsistency in format of output.
+
 1.2.1
 Phase 2.1: if PDF answer from it else external source
-still a temp 0 model and if uploaded a pdf then doesn't check from external source
+still a temp 0 model and if uploaded a pdf then doesn't check from external source ( grounding )
 
 1.2.0
 Phase 2: PDF integration 
 temp 0 model no hallucinations only answers from PDF -> no PDF no answer
+if "answer only from pdf" is removed from prompt, model directly answers from external source with out informing -> Prior knowledge dominance.
 
 1.1.0
 Phase 1: question and answer with no memory
@@ -12,3 +17,11 @@ Simple UI and integration of llm api no context window.
 
 1.0.0
 setup - Created virtual env and included it in .gitignore, added dependencies and freezed requirements
+
+user input 
+    |
+    v
+  model
+    |
+    v
+ forgets

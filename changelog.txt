@@ -1,3 +1,7 @@
+1.2.1
+Phase 2.1: if PDF answer from it else external source
+still a temp 0 model and if uploaded a pdf then doesn't check from external source
+
 1.2.0
 Phase 2: PDF integration 
 temp 0 model no hallucinations only answers from PDF -> no PDF no answer

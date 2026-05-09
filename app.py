@@ -29,23 +29,29 @@ if pdf_text:
 st.user_input = st.text_area("Ask something about the PDF...", height=200)
 
 if st.button("Get Response"):
-    if pdf_text and st.user_input.strip() != "":
-        with st.spinner("Thinking..."):
-            request_prompt = f"""
-                Answer the question ONLY using the provided PDF content.
-
-                PDF Content:
-                {pdf_text[:10000]}
-
-                Question:
-                {st.user_input}
-
-                If the answer is not in the PDF, say:
-                "The PDF does not contain this information."
-            """
-
-            response = generate_response(request_prompt)
-            st.subheader("Response:")
-            st.write(response)
+    if st.user_input.strip() == "":
+        st.warning("Please ask a question before getting a response.")
     else:
-        st.warning("Please upload a PDF and ask a question before getting a response.")
+        with st.spinner("Thinking..."):
+            if pdf_text:
+                request_prompt = f"""
+                        Answer the question ONLY using the provided PDF content.
+
+                        PDF Content:
+                        {pdf_text[:10000]}
+
+                        Question:
+                        {st.user_input}
+
+                        If the answer is not in the PDF, say:
+                        "The PDF does not contain this information."
+                    """
+
+                response = generate_response(request_prompt)
+                st.subheader("Response:")
+                st.write(response)
+            else:
+                response = generate_response(st.user_input)
+                st.warning("Response is from external source")
+                st.subheader("Response:")
+                st.write(response)

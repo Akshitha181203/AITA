@@ -1,5 +1,5 @@
 # AITA
-AI Teaching Assistant 
+AI Teaching Assistant - https://aita-v1.streamlit.app
 
 ## Features
 - PDF Upload

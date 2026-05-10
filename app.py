@@ -1,6 +1,6 @@
 import streamlit as st
 from services.llm_services import generate_response
-from services.pdf_services import extract_text_from_pdf
+import services.pdf_services
 from services.quiz_services import generate_quiz
 
 st.set_page_config(page_title="AITA - Student's Edition", page_icon=":school:", layout="wide")
@@ -14,19 +14,17 @@ pdf_text = ""
 
 if uploaded_file is not None:
     with st.spinner("Extracting text from PDF..."):
-        pdf_text = extract_text_from_pdf(uploaded_file)
+        pdf_text = services.pdf_services.extract_text_from_pdf(uploaded_file)
         
     st.success("PDF uploaded successfully!")
 
 if pdf_text:
     if st.button("Generate Summary"):
         with st.spinner("Generating summary..."):
-            summary = generate_response(
-                f"Summarize the following text:\n\n{pdf_text[:10000]}"
-                )       # Chuncking
+            summary = services.pdf_services.generate_summary(pdf_text)
         st.subheader("Summary:")
         st.write(summary)
-        
+
     if st.button("Generate Quiz"):
         with st.spinner("Generating quiz..."):
             quiz = generate_quiz(pdf_text)
@@ -52,7 +50,7 @@ if st.button("Get Response"):
 
                         If the answer is not in the PDF, say:
                         "The PDF does not contain this information."
-                    """     # Grounding
+                    """     # Grounding and Context Injection
 
                 response = generate_response(request_prompt)
                 st.subheader("Response:")

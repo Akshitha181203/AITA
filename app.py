@@ -8,6 +8,8 @@ st.set_page_config(page_title="AITA - Student's Edition", page_icon=":school:", 
 st.title("AITA - Student's Edition")
 st.write("Welcome to the AITA - Student's Edition! This tool is designed to help students get teaching ouside the classroom. Ask any question related to your studies, and I'll do my best to provide a helpful response.")
 
+st.warning("Large PDFs may slow responses.")
+
 uploaded_file = st.file_uploader("Upload a PDF to extract text", type=["pdf"], key="pdf_uploader")
 
 pdf_text = ""
@@ -19,44 +21,74 @@ if uploaded_file is not None:
     st.success("PDF uploaded successfully!")
 
 if pdf_text:
-    if st.button("Generate Summary"):
-        with st.spinner("Generating summary..."):
-            summary = services.pdf_services.generate_summary(pdf_text)
-        st.subheader("Summary:")
-        st.write(summary)
+    with st.expander("PDF tools"):
+        if st.button("Generate Summary"):
+            with st.spinner("Generating summary..."):
+                summary = services.pdf_services.generate_summary(pdf_text)
+            st.subheader("Summary:")
+            st.write(summary)
 
-    if st.button("Generate Quiz"):
-        with st.spinner("Generating quiz..."):
-            quiz = generate_quiz(pdf_text)
-        st.subheader("Quiz:")
-        st.write(quiz)
+        if st.button("Generate Quiz"):
+            with st.spinner("Generating quiz..."):
+                quiz = generate_quiz(pdf_text)
+            st.subheader("Quiz:")
+            st.write(quiz)
+
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
 
 st.user_input = st.text_area("Ask something about the PDF...", height=200)
 
-if st.button("Get Response"):
+if st.button("Ask AI..."):
     if st.user_input.strip() == "":
         st.warning("Please ask a question before getting a response.")
     else:
+        st.session_state.chat_history.append(f"User: {st.user_input}")
+        conversation_context = "\n".join(st.session_state.chat_history[-6:])
+
         with st.spinner("Thinking..."):
             if pdf_text:
                 request_prompt = f"""
-                        Answer the question ONLY using the provided PDF content.
+                    You are an AI Study Assistant.
 
-                        PDF Content:
-                        {pdf_text[:10000]}
+                    Answer the question ONLY using the provided PDF content.
 
-                        Question:
-                        {st.user_input}
+                    PDF Content:
+                    {pdf_text[:10000]}
 
-                        If the answer is not in the PDF, say:
-                        "The PDF does not contain this information."
-                    """     # Grounding and Context Injection
+                    Conversation History:
+                    {conversation_context}
+
+                    Current User Question:
+                    {st.user_input}
+
+                    Rules:
+                    - Use ONLY PDF information
+                    - If answer is not present in PDF say:
+                    "The PDF does not contain this information."
+                """     # Grounding and Context Injection
 
                 response = generate_response(request_prompt)
-                st.subheader("Response:")
-                st.write(response)
             else:
-                response = generate_response(st.user_input)
+                request_prompt = f"""
+                    You are an AI Study Assistant.
+
+                    Answer the question based on your general knowledge.
+
+                    Conversation History:
+                    {conversation_context}
+
+                    Current User Question:
+                    {st.user_input}
+                """
+                response = generate_response(request_prompt)
                 st.warning("Response is from external source")
-                st.subheader("Response:")
-                st.write(response)
+
+        st.session_state.chat_history.append(f"AI: {response}")
+        st.subheader("Response:")
+        st.write(response)
+
+
+if st.button("Clear Chat History"):
+    st.session_state.chat_history = []
+    st.success("Chat history cleared!")

@@ -1,3 +1,15 @@
+1.4.0
+Phase 4: Converstional memory
+Casually injecting whole conversation or chuck of conversation in every prompt. If conversation is relatively large then response is slow, not hallucinating
+
+  Conversation History
+          +
+      New Message
+          ↓
+        Model
+          ↓
+Contextual conversation
+
 1.3.0
 Phase 3: Quiz Generation
 Repeatative question and inconsistency in format of output.

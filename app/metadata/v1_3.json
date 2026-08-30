@@ -1,0 +1,13 @@
+{
+  "engineering_notes": [
+    "Introduced conversational memory",
+    "Enabled context-aware interaction",
+    "Conversation history added to prompt"
+  ],
+
+  "limitations": [
+    "Memory only exists during session",
+    "No long-term persistence",
+    "Token scaling issue with long chats"
+  ]
+}

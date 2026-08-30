@@ -1,0 +1,4 @@
+{
+  "title": "PDF Grounding",
+  "limitations": ["Large PDF truncation", "No retrieval system"]
+}

@@ -1,0 +1,4 @@
+{
+  "title": "Basic Prompting",
+  "limitations": ["No memory", "Hallucinations", "No grounding"]
+}
